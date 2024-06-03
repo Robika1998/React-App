@@ -41,10 +41,10 @@ const ListItem: React.FC<ListItemProps> = ({ id, web_site, title, text, image, d
 
   return (
     <div
-      className="py-7 mb-5 flex flex-col items-center bg-blue-200 w-[40%]"
+      className="py-7 mb-5 flex flex-col items-center bg-blue-200 w-[40%] "
       onClick={handleNameClick}
     >
-      <h2 className="text-4xl mb-3 font-semibold cursor-pointer">{title}</h2>
+      <h2 className="text-2xl mb-3 font-semibold cursor-pointer ml-5">{title}</h2>
       <ul className=" w-[50%] rounded-lg object-cover object-center shadow-2xl ">
       {image && <img src={image} alt="My Photo" />}
       </ul>

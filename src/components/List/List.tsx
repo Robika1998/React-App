@@ -18,7 +18,7 @@ interface ListProps {
 
 const List: React.FC<ListProps> = ({ items, onAddNote }) => {
   return (
-    <div className='flex justify-center flex-col items-center'>
+    <div className='flex justify-center flex-col items-center '>
       {items.map(item => (
         <ListItem
           id={item.id}
