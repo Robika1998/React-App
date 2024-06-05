@@ -7,13 +7,14 @@ import classNames from "classnames";
 import { useQuery } from "@tanstack/react-query";
 import { GetNews } from "../Api/GetNews";
 import { DefaultPagination } from "../components/Pagination/Pagination";
+import { UseMainContext } from "../Context/MainContext";
 
 
 export default function MainPage() {
-  const [currentPage, setCurrentPage] = useState(1);
+  const {dispatch, state, data } = UseMainContext()
   const [transitionDirection, setTransitionDirection] = useState("");
   const [notes, setNotes] = useState<string[]>([]);
-  const itemsPerPage = 10;
+ const {currentPage} = state
 
   useEffect(() => {
     if (transitionDirection !== "") {
@@ -29,19 +30,22 @@ export default function MainPage() {
     setNotes([...notes, note]);
   };
 
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ["get-news", currentPage],
-    queryFn: () => GetNews({ page: currentPage, pageSize: itemsPerPage }),
-  });
+
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  
+    dispatch({type:"set_current_page", payload:page})
   };
+ 
+  
 
-  const totalPages = data?.pagination?.totalPages || 1;
-  const totalItems = data?.pagination?.totalItems || 0;
+  
+  // const totalPages = data?.pagination?.totalPages || 1;
+  // const totalPages = data?.pagination?.totalPages ? Math.min(data.pagination.totalPages, 10) : 1;
+  // const totalItems = data?.pagination?.totalItems || 0;
+  
 
-  if (isPending) {
+  if (data.isPending) {
     return <div>Loading...</div>;
   }
 
@@ -53,6 +57,8 @@ export default function MainPage() {
           Information's List
         </h1>
         <div className="overflow-hidden relative">
+       
+
           <div
             className={classNames(
               "transition-transform duration-300",
@@ -60,13 +66,13 @@ export default function MainPage() {
               transitionDirection === "left" ? "-translate-x-full" : ""
             )}
           >
-            {data.data && <List items={data.data} onAddNote={handleAddNote} />}
+            {data.data.data && <List items={data.data.data} onAddNote={handleAddNote} />}
           </div>
         </div>
         <div className="mt-8 flex justify-center">
           <DefaultPagination
             page={currentPage}
-            totalPages={data?.pagination?.totalPages || 1}
+            totalPages={data?.data?.pagination?.totalPages || 1}  
             onPageChange={handlePageChange}
             pageSize={10}
             total={34}

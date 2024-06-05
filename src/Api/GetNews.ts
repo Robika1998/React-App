@@ -1,24 +1,26 @@
 import axios from "axios";
+import { ApiManager } from "./ApiManager/ApiManager";
 
-export const ApiManager = axios.create({
-  baseURL: "http://192.168.1.130:3000/",
-  responseType: "json",
-  withCredentials: true,
-  httpsAgent: {
-    rejectUnauthorized: false,
-  },
-});
+// export const ApiManager = axios.create({
+//   baseURL: "http://192.168.1.130:3000/",
+//   responseType: "json",
+//   withCredentials: true,
+//   httpsAgent: {
+//     rejectUnauthorized: false,
+//   },
+// });
 
 export const GetNews = async (body?: any): Promise<any> => {
   try {
-    const { page, pageSize } = body;
-    console.log(`Requesting news with page: ${page}, pageSize: ${pageSize}`);
+    const { page, pageSize, date } = body;
+    console.log(body);
+    console.log(`Requesting news with page: ${page}, `);
     const res: any = await ApiManager.get(`news`, {
       params: {
         page,
         pageSize,
-        date: "desc",
-        dates: "asc",
+        date,
+
         // desc  | asc
       },
     });

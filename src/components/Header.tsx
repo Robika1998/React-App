@@ -3,9 +3,10 @@ import { Disclosure } from "@headlessui/react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import MainPage from "../Pages/MainPage";
+import { GetNews } from "../Api/GetNews";
+import { UseMainContext } from "../Context/MainContext";
 
 
-const MySwal = withReactContent(Swal);
 
 interface NavigationItem {
   name: string;
@@ -19,36 +20,13 @@ interface Props {
 }
 
 function Header({ navigation, notes }: Props) {
-  const [departureDate, setDepartureDate] = useState<string | null>(null);
-  const [returnDate, setReturnDate] = useState<string | null>(null);
+  const { dispatch } = UseMainContext();
 
-  const handleDatePicker = async () => {
-    const { value: formValues } = await MySwal.fire({
-      title: "Select departure and return date",
-      html:
-        '<input type="date" id="departure-date" class="swal2-input">' +
-        '<input type="date" id="return-date" class="swal2-input">',
-      focusConfirm: false,
-      preConfirm: () => {
-        const departureDateInput = document.getElementById(
-          "departure-date"
-        ) as HTMLInputElement;
-        const returnDateInput = document.getElementById(
-          "return-date"
-        ) as HTMLInputElement;
-        return [departureDateInput.value, returnDateInput.value];
-      },
-    });
+  const [sortBy, setSortBy] = useState<"asc" | "desc">("desc");
 
-    if (formValues) {
-      const [departure, returnDate] = formValues;
-      setDepartureDate(departure);
-      setReturnDate(returnDate);
-      MySwal.fire(
-        "Selected dates",
-        `Departure: ${departure}, Return: ${returnDate}`
-      );
-    }
+  const handleDateSort = (value: "asc" | "desc") => {
+    setSortBy(value);
+    dispatch({ type: "set_date", payload: value });
   };
 
   return (
@@ -72,39 +50,46 @@ function Header({ navigation, notes }: Props) {
               </div>
             </div>
             <div className="flex flex-1 items-center justify-end">
-              <h1>Note</h1>
-              <div className="ml-4 flex items-center space-x-4">
-                {notes.map((note, index) => (
-                  <div
-                    key={index}
-                    className="bg-white p-2 rounded-lg shadow-md"
-                  >
-                    {note}
-                  </div>
-                ))}
-              </div>
-              <button
-                onClick={handleDatePicker}
-                className="bg-blue-500 text-white px-3 py-2 rounded-md"
-              >
-                Filter
-              </button>
-              {(departureDate || returnDate) && (
-                <div className="ml-4">
-                  {departureDate && (
-                    <div>
-                      <strong>Departure Date: </strong>
-                      {departureDate}
+              <div className="flex items-center mr-4">
+                <h1>Note</h1>
+                <div className="ml-4 flex items-center space-x-4">
+                  {notes.map((note, index) => (
+                    <div
+                      key={index}
+                      className="bg-white p-2 rounded-lg shadow-md"
+                    >
+                      {note}
                     </div>
-                  )}
-                  {returnDate && (
-                    <div>
-                      <strong>Return Date: </strong>
-                      {returnDate}
-                    </div>
-                  )}
+                  ))}
                 </div>
-              )}
+              </div>
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) =>
+                    handleDateSort(e.target.value as "asc" | "desc")
+                  }
+                  className="block appearance-none bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                >
+                
+                  <option value="desc">New Info</option>
+                  <option value="asc">Old Info</option>
+             
+                 
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M6.293 7.293a1 1 0 0 1 1.414 1.414L10 10.414l2.293-2.293a1 1 0 1 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 0-1.414z"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ const List: React.FC<ListProps> = ({ items, onAddNote }) => {
     <div className='flex justify-center flex-col items-center '>
       {items.map(item => (
         <ListItem
+        key={item.id}
           id={item.id}
           web_site={item.web_site}
           title={item.title}
