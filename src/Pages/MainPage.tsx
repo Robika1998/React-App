@@ -53,7 +53,7 @@ export default function MainPage() {
     <>
       <Header navigation={[]} notes={[]} />
       <div className="container mx-auto mt-8">
-        <h1 className="text-3xl font-semibold mb-4 flex justify-center">
+        <h1 className="text-3xl font-semibold mb-4 flex justify-center ">
           Information's List
         </h1>
         <div className="overflow-hidden relative">

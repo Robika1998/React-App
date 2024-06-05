@@ -29,6 +29,8 @@ function Header({ navigation, notes }: Props) {
     dispatch({ type: "set_date", payload: value });
   };
 
+  
+
   return (
     <Disclosure
       as="nav"

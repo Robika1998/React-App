@@ -18,27 +18,11 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ id, web_site, title, text, image, date, createdAt, onAddNote}) => {
   const [showInfo, setShowInfo] = useState(false);
-  const {setCount} = UseMainContext()
+  // const {setCount} = UseMainContext()
   const handleNameClick = () => {
     setShowInfo(!showInfo);
   };
 
-  // const handleOpen = () => {
-  //   Swal.fire({
-  //     title: "Do you want to save the changes?",
-  //     showDenyButton: true,
-  //     showCancelButton: true,
-  //     confirmButtonText: "Save",
-  //     denyButtonText: `Don't save`
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       onAddNote(description);
-  //       Swal.fire("Saved!", "", "success");
-  //     } else if (result.isDenied) {
-  //       Swal.fire("Changes are not saved", "", "info");
-  //     }
-  //   });
-  // };
 
   return (
     <div
