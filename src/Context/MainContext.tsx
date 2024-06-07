@@ -37,6 +37,10 @@ export const ContextProvider = ({children}:{children:ReactNode})=>{
             return {...state, currentPage: action.payload};
             case "set_date":
                return { ...state, date: action.payload };
+               case "reset_page":
+                    return { ...state, currentPage: 1 };
+                    case "fetch_data":
+                         return { ...state };
          default:
             return {...state}
        }

@@ -29,6 +29,17 @@ function Header({ navigation, notes }: Props) {
     dispatch({ type: "set_date", payload: value });
   };
 
+  const handleResetPage = () => {
+    dispatch({
+      type: "reset_page",
+      payload: undefined
+    });
+    dispatch({
+      type: "fetch_data",
+      payload: undefined
+    });
+  };
+
   
 
   return (
@@ -48,7 +59,7 @@ function Header({ navigation, notes }: Props) {
                 />
               </div>
               <div className="hidden sm:ml-6 sm:block">
-                <h1 className="text-4xl">Information</h1>
+                <h1 className="text-4xl cursor-pointer" onClick={handleResetPage}>Information</h1>
               </div>
             </div>
             <div className="flex flex-1 items-center justify-end">
